@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<map>
 
 using std::cin;
@@ -10,14 +10,14 @@ using std::endl;
 #define delimiter "\n--------------------------------------\n"
 
 
-#define STL_MAP
+//#define STL_MAP
 
 
 void main()
 {
 	setlocale(LC_ALL, "");
 #ifdef STL_MAP
-	std::multimap<int, std::string> week =
+	std::map<int, std::string> week =
 	{
 		std::pair<int, std::string>(0, "Sunday"),
 		std::pair<int, std::string>(1, "Monday"),
@@ -25,7 +25,7 @@ void main()
 		std::pair<int, std::string>(2, "Tuesday"),
 		std::pair<int, std::string>(2, "Tuesday"),
 		std::pair<int, std::string>(2, "Tuesday"),
-		std::pair<int, std::string>(2, "Âòîğíèê"),
+		std::pair<int, std::string>(2, "Ğ’Ñ‚Ğ¾Ñ€Ğ½Ğ¸Ğº"),
 		std::pair<int, std::string>(2, "Tuesday"),
 		std::pair<int, std::string>(2, "Tuesday"),
 		std::pair<int, std::string>(2, "Tuesday"),
