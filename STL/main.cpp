@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<array>
 #include <vector>
 #include <list>
@@ -10,7 +10,7 @@ using std::endl;
 
 
 #define tab "\t"
-#define delimiter "\n--------------------------------------\n"
+#define delimiter "\n---------------------------------------\n"
 
 //#define STL_ARRAY 
 //#define STL_VECTOR
@@ -53,12 +53,12 @@ void main()
 	for (int i : vec)cout << i << tab; cout << endl;
 	vector_info(vec);
 
-	vec.shrink_to_fit(); //óðåçàåò âìåñòèìîñòü äî ôàêòè÷åñêîãî ðàçìåðà âåêòîðà (size)
-	                     //ýòî ìîæíî ñäåëàòü â öåëÿõ ýêîíîìèè ïàìÿòè, åñëè ìû óâåðåíû ÷òî â âåêòîðå
-	                     // áîëüøå íè÷åãî íå áóäåò äîáàâëÿòüñÿ
+	vec.shrink_to_fit(); //ÑƒÑ€ÐµÐ·Ð°ÐµÑ‚ Ð²Ð¼ÐµÑÑ‚Ð¸Ð¼Ð¾ÑÑ‚ÑŒ Ð´Ð¾ Ñ„Ð°ÐºÑ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð° Ð²ÐµÐºÑ‚Ð¾Ñ€Ð° (size)
+	                     //ÑÑ‚Ð¾ Ð¼Ð¾Ð¶Ð½Ð¾ ÑÐ´ÐµÐ»Ð°Ñ‚ÑŒ Ð² Ñ†ÐµÐ»ÑÑ… ÑÐºÐ¾Ð½Ð¾Ð¼Ð¸Ð¸ Ð¿Ð°Ð¼ÑÑ‚Ð¸, ÐµÑÐ»Ð¸ Ð¼Ñ‹ ÑƒÐ²ÐµÑ€ÐµÐ½Ñ‹ Ñ‡Ñ‚Ð¾ Ð² Ð²ÐµÐºÑ‚Ð¾Ñ€Ðµ
+	                     // Ð±Ð¾Ð»ÑŒÑˆÐµ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð±ÑƒÐ´ÐµÑ‚ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÑ‚ÑŒÑÑ
 	vector_info(vec);
 	
-	vec.resize(8);  //çàäàò ôàêòè÷åñêèé ðàçìåð âåêòîðà. Ïðè óìåíüøåíèÿ òåðÿþòñÿ çíà÷åíèÿ â êîíöå âåêòîðà
+	vec.resize(8);  //Ð·Ð°Ð´Ð°Ñ‚ Ñ„Ð°ÐºÑ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð²ÐµÐºÑ‚Ð¾Ñ€Ð°. ÐŸÑ€Ð¸ ÑƒÐ¼ÐµÐ½ÑŒÑˆÐµÐ½Ð¸Ñ Ñ‚ÐµÑ€ÑÑŽÑ‚ÑÑ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð² ÐºÐ¾Ð½Ñ†Ðµ Ð²ÐµÐºÑ‚Ð¾Ñ€Ð°
 	for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); ++it)
 	{
 		cout << *it << tab;
@@ -75,17 +75,17 @@ void main()
 	int index;
 	int count;
 	int value;
-	cout << "Ââåäèòå èíäåêñ äîáàâëÿåìîãî ýëåìåíòà: "; cin >> index;
-	cout << "Ââåäèòå êîëè÷åñòâî äîáàâëÿåìîãî ýëåìåíòà: "; cin >> count;
-	cout << "Ââåäèòå çíà÷åíèå äîáàâëÿåìîãî ýëåìåíòà: "; cin >> value;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð½Ð´ÐµÐºÑ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> index;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> count;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> value;
 
 	//vec.insert(vec.begin() + index, value);
 	vec.insert(vec.begin() + index, count, value);
 	for (int i : vec)cout << i << tab; cout << endl;
 	vector_info(vec);
 
-	cout << "Ââåäèòå èíäåêñ óäàëÿåìîãî ýëåìåíòà: "; cin >> index;
-	cout << "Ââåäèòå êîëè÷åñòâî óäàëÿåìîãî ýëåìåíòà: "; cin >> count;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð½Ð´ÐµÐºÑ ÑƒÐ´Ð°Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> index;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑƒÐ´Ð°Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> count;
 	vec.erase(vec.begin() + index, vec.begin() + index + count);
 	for (int i : vec)cout << i << tab; cout << endl;
 
@@ -114,10 +114,10 @@ void main()
 	int value;
 	do
 	{
-	cout << "Âåäèòå èíäåêñ äîáàâëÿåìîãî ýëåìåíòà: "; cin >> index;
+	cout << "Ð’ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð½Ð´ÐµÐºÑ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> index;
 	if (index >= list.size())cout << "Error: Out of range" << endl;
 	} while (index >= list.size());
-	cout << "Âåäèòå çíà÷åíèå äîáàâëÿåìîãî ýëåìåíòà: "; cin >> value;
+	cout << "Ð’ÐµÐ´Ð¸Ñ‚Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> value;
 	std::list<int>::iterator position = list.begin();
 	//for (int i = 0; i < index; i++)position++;
 	std::advance(position, index);
