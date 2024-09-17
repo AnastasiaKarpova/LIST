@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNING 
+﻿#define _CRT_SECURE_NO_WARNINGS 
 #pragma warning (disable: 4326)
 #include<iostream>
 #include<string>
@@ -88,8 +88,7 @@ public:
 		//2) Копируем полученную строку в бувер:
 		strcpy(time_buffer, time.c_str());
 		//Функция strcpy(dst, src); копируе содержимое строки источника (src - Source) в строку получателя (dst - Destination)
-		delete[] time_buffer;
-
+		
 		//3)Создаем массив для хранения элементов времени:
 		int time_elements[5]{};
 		int i = 0;
@@ -97,7 +96,7 @@ public:
 		for (char* pch = strtok(time_buffer, delimiters); pch; pch = strtok(NULL, delimiters))
 				time_elements[i++] = std::atoi(pch);
 		//Функция std::atoi() 'ASCII - string to int' преобразует строку в целое число
-
+		delete[] time_buffer;
 		//4) Сохраняем элементы времени в структуру 'tm':
 		
 		this->time.tm_hour = time_elements[0];
@@ -216,6 +215,6 @@ void save(const std::map<std::string, std::list<Crime>>& base, const std::string
 		fout << delimiter << endl;
 	}
 	fout.close();
-	std::string command = "notepad" + filename;
+	std::string command = "notepad " + filename;
 	system(command.c_str());
 }
