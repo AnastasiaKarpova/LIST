@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssociativeContainers", "As
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Police", "Police\Police.vcxproj", "{7DDC7104-0559-435F-9AC1-4DCC24D225AD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Traffic police database", "Traffic police database\Traffic police database.vcxproj", "{E1810D89-8E2D-4DC6-B077-06DFB8642380}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{7DDC7104-0559-435F-9AC1-4DCC24D225AD}.Release|x64.Build.0 = Release|x64
 		{7DDC7104-0559-435F-9AC1-4DCC24D225AD}.Release|x86.ActiveCfg = Release|Win32
 		{7DDC7104-0559-435F-9AC1-4DCC24D225AD}.Release|x86.Build.0 = Release|Win32
+		{E1810D89-8E2D-4DC6-B077-06DFB8642380}.Debug|x64.ActiveCfg = Debug|x64
+		{E1810D89-8E2D-4DC6-B077-06DFB8642380}.Debug|x64.Build.0 = Debug|x64
+		{E1810D89-8E2D-4DC6-B077-06DFB8642380}.Debug|x86.ActiveCfg = Debug|Win32
+		{E1810D89-8E2D-4DC6-B077-06DFB8642380}.Debug|x86.Build.0 = Debug|Win32
+		{E1810D89-8E2D-4DC6-B077-06DFB8642380}.Release|x64.ActiveCfg = Release|x64
+		{E1810D89-8E2D-4DC6-B077-06DFB8642380}.Release|x64.Build.0 = Release|x64
+		{E1810D89-8E2D-4DC6-B077-06DFB8642380}.Release|x86.ActiveCfg = Release|Win32
+		{E1810D89-8E2D-4DC6-B077-06DFB8642380}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
