@@ -64,3 +64,12 @@ public:
 
 };
 
+void add()
+{
+
+}
+
+void search()
+{
+
+}

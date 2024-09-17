@@ -106,26 +106,31 @@ std::ostream& operator<<(std::ostream& os, const Crime& obj)
 	return os << obj.get_time() << ":\t"  << obj.get_place() << " - " << obj.get_violation();
 }
 
-void Save(Crime*, const int n, const std::string filename)
+
+void Save(const std::map<std::string,std::list<Crime>> base, const std::string filename)
 {
 	std::ofstream fout(filename);
-	for ()
+	/*int violation_id;
+	std::string place;
+	std::string time;*/
+	if (fout.is_open())
 	{
-
+		
 	}
 	fout.close();
-	std::string cmd = "notepad" + filename;
-	system(cmd.c_str());
+	
 }
-Crime* Load(const std::string& filename, int& n)
+void Load(const std::map<std::string, std::list<Crime>> base, const std::string& filename)
 {
 	std::ifstream fin(filename);
+	/*int violation_id; 
+	std::string place; 
+	std::string time; */
 	if (fin.is_open())
 	{
-		n = 0;
 		while (!fin.eof())
 		{
-			std::string buffer;
+			
 
 		}
 		fin.close();
@@ -147,6 +152,8 @@ void main()
 		{"a000bb", {Crime(6, "ул. Космонавтов", "17:50 1.08.2024"), Crime(8, "ул. Космонавтов", "17:45 01.08.2024")}},
 		{"a001aa", {Crime(10, "ул. Пролетарская", "21:50 1.08.2024"), Crime(9, "ул. Пролетарская", "21:50 1.08.2024"), Crime(11, "ул. Пролетарская", "21:50 1.08.2024"), Crime(12, "ул. Пролетарская", "22:05 1.08.2024")}},
 	};
+	//Save(base, "Database.txt");
+	Load(base, "Database.txt");
 	for (std::map<std::string, std::list<Crime>>::iterator map_it = base.begin(); map_it != base.end(); ++map_it)
 	{
 		cout << map_it->first << ":\n";
