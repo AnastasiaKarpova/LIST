@@ -201,6 +201,7 @@ std::map<std::string, std::list<Crime>> load (const std::string& filename);
 //		std::cerr << "Error: File not found" << endl;
 //	}
 //}
+
 //#define SAVE_CHECK
 #define LOAD_CHECK
 void main()
@@ -223,7 +224,7 @@ void main()
 #endif // SAVE_CHECK
 
 #ifdef LOAD_CHECK
-
+	load("base.txt");
 #endif // LOAD_CHECK
 
 	

@@ -104,6 +104,7 @@ public:
 	{
 		time = *localtime(&timestamp);
 	}
+	PoliceDatabase() {}
 	PoliceDatabase(double offenses_id,const std::string& place, const std::string& time)
 	{
 		this->time = {};  //tm()
@@ -124,11 +125,13 @@ public:
 	{
 		offense_list[car_number].push_back(offense);
 	}
+	
 };
 void PrintNumber(const std::string& number)
 {
-	
-		for (std::map<std::string, std::list<PoliceDatabase>>::const_iterator map_it = base.begin(); map_it != base.end(); ++map_it)
+	if (number == )
+	{
+		for (std::map<std::string, std::list<PoliceDatabase>>::const_iterator map_it = number.begin(); map_it != base.end(); ++map_it)
 		{
 			cout << map_it->first << ":\n";
 			for (std::list<PoliceDatabase>::const_iterator it = map_it->second.begin(); it != map_it->second.end(); ++it)
@@ -137,6 +140,15 @@ void PrintNumber(const std::string& number)
 			}
 			cout << endl;
 		}
+	}
+	else
+	{
+		cout << "Автомобиль с таким номером отсутствует в базе правонарушений ГАИ" << endl;
+	}
+}
+void printrangenumber()
+{
+
 }
 
 std::ostream& operator<<(std::ostream& os, const PoliceDatabase& obj)
@@ -169,6 +181,7 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	int i;
+	std::string num;
 	std::map<std::string, std::list<PoliceDatabase>> base =
 	{
 		{"п456ае", {PoliceDatabase(12.6, "ул. Некрасова", "10:10 26.07.2024"), PoliceDatabase(12.9, "пл. Победы", "17:30 5.09.2024")}},
@@ -193,7 +206,7 @@ void main()
 	do
 	{
 		cin >> i;
-		//PoliceDatabase car;
+		PoliceDatabase car;
 
 		switch (i)
 		{
@@ -204,22 +217,26 @@ void main()
 
 		case 2:
 			cout << "Вывод правонарушений по заданному номеру\n" << endl;
-
+			cout << "Укажите номер интересующего Вас автомобиля: " << endl;
+			cin >> num;
+			PrintNumber(num);
 			break;
 
 		case 3:
 			cout << "Вывод правонаруений по диапазону номеров\n" << endl;
-
+			
+			printrangenumber();
 			break;
 
 		case 4:
 			cout << "Добавить правонарушителя\n" << endl;
-			//add("A348CB", (12.3, "ул. Носова", "12:10 13.08.2023"));
+			car.add("A348CB", (12.3, "ул. Носова", "12:10 13.08.2023"));
 			print(base);
 			break;
 
 		case 5:
 			cout << "Выгрузить базу в файл\n" << endl;
+			print(base);
 			save(base, "Police database.txt");
 			cout << "Файл выгружен" << endl;
 			break;
