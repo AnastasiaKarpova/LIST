@@ -8,7 +8,6 @@
 #include<list>
 #include<ctime>
 #include<fstream>
-#include<vector>
 
 using std::cin;
 using std::cout;
@@ -20,6 +19,7 @@ using std::endl;
 
 const std::map<int, std::string> VIOLATIONS =
 {
+	{0, "N/A"},
 	{1, "Ремень безопасности"},
 	{2, "Парковка в неположенном месте"},
 	{3, "Пересечение сплошной"},
@@ -121,8 +121,8 @@ public:
 	}
 
 	// Constructors:
-	Crime(/*const std::string& license_plate*/ int violation_id,
-		const std::string& place, const std::string& time)
+	explicit Crime(/*const std::string& license_plate*/ int violation_id = 0,
+		const std::string& place = "Place", const std::string& time = "00:00 01.01.2000") // без explicit выдает ошибку
 	{
 		//set_license_plate(license_plate);
 		this->time = {};  //tm()
@@ -225,10 +225,9 @@ void main()
 #endif // SAVE_CHECK
 
 #ifdef LOAD_CHECK
-	load("base.txt");
+	std::map<std::string, std::list<Crime>> base = load("base.txt");
+	print(base);
 #endif // LOAD_CHECK
-
-	
 }
 
 void print(const std::map<std::string, std::list<Crime>>& base)
@@ -238,10 +237,11 @@ void print(const std::map<std::string, std::list<Crime>>& base)
 		cout << map_it->first << ":\n";
 		for (std::list<Crime>::const_iterator it = map_it->second.begin(); it != map_it->second.end(); ++it)
 		{
-			cout << "\t" << *it << endl;
+			cout << *it << endl;
 		}
 		cout << delimiter << endl;
 	}
+	cout << "Количество номеров в базе:" << base.size() << endl;
 }
 void save(const std::map<std::string, std::list<Crime>>& base, const std::string& filename)
 {
@@ -264,58 +264,59 @@ void save(const std::map<std::string, std::list<Crime>>& base, const std::string
 }
 std::map<std::string, std::list<Crime>> load(const std::string& filename)
 {
-	//std::map<std::string, std::list<Crime>> base;
-	std::vector<Crime> base;
+	std::map<std::string, std::list<Crime>> base;
+
 	std::ifstream fin(filename);
 	if (fin.is_open())
 	{
-		//while (!fin.eof())
-		//{
-		//	std::string licence_plate;
-		//	std::getline(fin, licence_plate, ':');
-		//	fin.ignore();   //:
+		while (!fin.eof())
+		{
+			std::string licence_plate;
+			std::getline(fin, licence_plate, ':');
+			//if (licence_plate.empty())continue;
+			licence_plate.erase(0, licence_plate.find_first_not_of('\n'));
+			fin.ignore();   //:
 
-		//	std::string crimes;
-		//	std::getline(fin, crimes);
-		//	char* sz_buffer = new char[crimes.size() + 1] {};
-		//	strcpy(sz_buffer, crimes.c_str());
-		//	char delimiters[] = ",";
-		//	for (char* pch = strtok(sz_buffer, delimiters); pch; pch = strtok(NULL, delimiters))
-		//	{
-		//		//std::cout << pch << "\t";
-		//		//std::string s_crime = pch;
-		//		//std::stringstream ss_crime(pch, std::ios_base::in | std::ios_base::out);
-		//		std::stringstream ss_crime(crimes);
-		//		Crime crime(0, "place", "00:00 01.01.2000");
-		//		ss_crime >> crime;
-		//		/*int crime = atoi(pch);
-		//		while (*pch == ' ')pch++;*/
-		//		//base[licence_plate].push_back(Crime(crime, pch + 1));
-		//		base[licence_plate].push_back(crime);
-		//	}
-		//	cout << endl;
-		//	/*std::string licence_plate;
-		//	std::getline(fin, licence_plate, ':');
-		//	fin.ignore();
-		//	Crime crime(0, "place", "time");
-		//	fin >> crime;
-		//	base[licence_plate].push_back(crime);*/
-
-		//}
-		int id;
+			std::string crimes;
+			std::getline(fin, crimes);
+			char* sz_buffer = new char[crimes.size() + 1] {};
+			strcpy(sz_buffer, crimes.c_str());
+			char delimiters[] = ",";
+			Crime crime; // (0, "place", "00:00 01.01.2000");
+			for (char* pch = strtok(sz_buffer, delimiters); pch; pch = strtok(NULL, delimiters))
+			{
+				std::cout << pch << "\t";
+				//std::string s_crime = pch;
+				std::stringstream ss_crime(pch, std::ios_base::in | std::ios_base::out);
+				//Crime crime(0, "place", "00:00 01.01.2000"); // При создании этого объекта локально в цикле for,
+				                                               //он нарушет работу функции strtok(), поэтому объект создается перед циклом
+				//Crime crime; //ситуация такая же как и в предыдущем случае
+				ss_crime >> crime;
+				base[licence_plate].push_back(crime);
+			}
+			cout << endl;
+			/*std::string licence_plate;
+			std::getline(fin, licence_plate, ':');
+			fin.ignore();
+			Crime crime(0, "place", "time");
+			fin >> crime;
+			base[licence_plate].push_back(crime);*/
+			delete[] sz_buffer;
+		}
+		/*int id;
 		std::string place;
 		tm time;
 		while (fin >> id >> place)
 		{
 			base.push_back(Crime{id, place });
-		}
+		}*/
 		fin.close();
 	}
 	else
 	{
 		std::cerr << "Error: file not found" << endl;
 	}
-	//return base;
+	return base;
 }
 //void load(const std::map<std::string, std::list<Crime>>& base, const std::string& filename)
 //{
