@@ -121,7 +121,7 @@ public:
 		cout << "Destructor:\t" << this << endl;
 #endif //DEBUG
 	}
-	void add(const std::string& car_number, const std::string& offense)
+	void add(std::map<std::string, std::list<PoliceDatabase>>& base, const std::string& car_number, const std::string& offense)
 	{
 		offense_list[car_number].push_back(offense);
 	}
@@ -129,8 +129,8 @@ public:
 };
 void PrintNumber(std::map<std::string, std::list<PoliceDatabase>>& base, std::string& number)
 {
-	std::map<std::string, std::list<PoliceDatabase>> range;
-	std::map<std::string, std::list<PoliceDatabase>>::const_iterator num;
+	//std::map<std::string, std::vector<std::string>>::iterator it = ___________.find(number);
+	
 	
 		/*for (std::map<std::string, std::list<PoliceDatabase>>::const_iterator map_it = num.begin(); map_it != base.end(); ++map_it)
 		{
@@ -165,7 +165,7 @@ std::istream& operator>>(std::istream& is, PoliceDatabase& obj)
 	return is;
 }
 
-void print(const std::map<std::string, std::list<PoliceDatabase>>& base);
+void print(std::map<std::string, std::list<PoliceDatabase>>& base);
 void save(const std::map<std::string, std::list<PoliceDatabase>>& base, const std::string& filename);
 //std::map<std::string, std::list<PoliceDatabase>> load(const std::string& filename);
 
@@ -222,7 +222,7 @@ void main()
 
 		case 4:
 			cout << "Добавить правонарушителя\n" << endl;
-			car.add("A348CB", (12.3, "ул. Носова", "12:10 13.08.2023"));
+			car.add(base, "A348CB", (12.3, "ул. Носова", "12:10 13.08.2023"));
 			print(base);
 			break;
 
@@ -259,7 +259,7 @@ void main()
 	} while (i == 0);
 }
 
-void print(const std::map<std::string, std::list<PoliceDatabase>>& base)
+void print(std::map<std::string, std::list<PoliceDatabase>>& base)
 {
 	for (std::map<std::string, std::list<PoliceDatabase>>::const_iterator map_it = base.begin(); map_it != base.end(); ++map_it)
 	{
