@@ -17,6 +17,24 @@ using std::endl;
 #define tab "\t"
 #define delimiter "\n--------------------------------------\n"
 
+#define Enter  13
+#define Escape  27
+#define UP_ARROW  72
+#define DOWN_ARROW  80
+
+
+const char* MENU_ITEMS[] =
+{
+	"1. Загрузить базу из файла",
+	"2. Загрузить базу в файл",
+	"3. Вывести базу на экран",
+	"4. Вывести информацию по номеру",
+	"5. Добавить нарушение",
+};
+const int MENU_SIZE = sizeof(MENU_ITEMS) / sizeof(MENU_ITEMS[0]);
+
+
+
 const std::map<int, std::string> VIOLATIONS =
 {
 	{0, "N/A"},
@@ -159,6 +177,7 @@ std::istream& operator>>(std::istream& is, Crime& obj)
 	std::string place;
 	is >> id >> timestamp;
 	std::getline(is, place, ',');
+	is.ignore();
 	obj.set_violation_id(id);
 	obj.set_timestamp(timestamp);
 	obj.set_place(place);
@@ -169,6 +188,7 @@ void print(const std::map<std::string, std::list<Crime>>& base);
 void save(const std::map<std::string, std::list<Crime>>& base, const std::string& filename);
 std::map<std::string, std::list<Crime>> load (const std::string& filename);
 
+int menu();
 //void Save(const std::map<std::string,std::list<Crime>> base, const std::string filename)
 //{
 //	std::ofstream fout(filename);
@@ -204,7 +224,7 @@ std::map<std::string, std::list<Crime>> load (const std::string& filename);
 //}
 
 //#define SAVE_CHECK
-#define LOAD_CHECK
+//#define LOAD_CHECK
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -228,10 +248,50 @@ void main()
 	std::map<std::string, std::list<Crime>> base = load("base.txt");
 	print(base);
 #endif // LOAD_CHECK
+	
+	
+	do
+	{
+		switch (menu())
+		{
+
+		}
+	} while (true);
+	
+}
+int menu()
+{
+	int selected_item = 0;
+	char key;
+	do
+	{
+		system("CLS");
+		for (int i = 0; i < MENU_SIZE; i++)
+		{
+			cout << (i == selected_item ? "[" : " ");
+			cout.width(32);
+			cout << std::left;
+			cout << MENU_ITEMS[i];
+			cout << (i == selected_item ? "]" : " ");
+			cout << endl;
+		}
+		key = _getch();
+		//cout << (int)key << endl;
+		switch (key)
+		{
+		case UP_ARROW: if (selected_item > 0)selected_item--; break;
+		case DOWN_ARROW: if (selected_item < MENU_SIZE - 1)selected_item++; break;
+		case Enter: return selected_item + 1;
+		case Escape: return 0;
+		}
+	} while (key != Escape);
+	
+	return 0;
 }
 
 void print(const std::map<std::string, std::list<Crime>>& base)
 {
+	cout << delimiter << endl;
 	for (std::map<std::string, std::list<Crime>>::const_iterator map_it = base.begin(); map_it != base.end(); ++map_it)
 	{
 		cout << map_it->first << ":\n";
@@ -241,7 +301,7 @@ void print(const std::map<std::string, std::list<Crime>>& base)
 		}
 		cout << delimiter << endl;
 	}
-	cout << "Количество номеров в базе:" << base.size() << endl;
+	cout << "Количество номеров в базе: " << base.size() << endl;
 }
 void save(const std::map<std::string, std::list<Crime>>& base, const std::string& filename)
 {
@@ -254,9 +314,10 @@ void save(const std::map<std::string, std::list<Crime>>& base, const std::string
 			 
 			fout << *it << ", ";
 		}
-		fout.seekp(-1, std::ios::cur); //Метод seekp(offset, direction) задает позицию курсора записи (р - pur)
+		//fout.seekp(-1, std::ios::cur); //Метод seekp(offset, direction) задает позицию курсора записи (р - pur)
 		// -1 смещение на один символ обратно, std::ios::cur - показывает что смещение производится от текущей позиции курсора
-		fout << ";\n";
+		//fout << ";\n";
+		fout << endl;
 	}
 	fout.close();
 	std::string command = "notepad " + filename;
@@ -265,7 +326,6 @@ void save(const std::map<std::string, std::list<Crime>>& base, const std::string
 std::map<std::string, std::list<Crime>> load(const std::string& filename)
 {
 	std::map<std::string, std::list<Crime>> base;
-
 	std::ifstream fin(filename);
 	if (fin.is_open())
 	{
@@ -279,7 +339,7 @@ std::map<std::string, std::list<Crime>> load(const std::string& filename)
 
 			std::string crimes;
 			std::getline(fin, crimes);
-			char* sz_buffer = new char[crimes.size() + 1] {};
+			char* sz_buffer = new char[crimes.size() + 1]{};
 			strcpy(sz_buffer, crimes.c_str());
 			char delimiters[] = ",";
 			Crime crime; // (0, "place", "00:00 01.01.2000");
