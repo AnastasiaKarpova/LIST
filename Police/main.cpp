@@ -8,6 +8,7 @@
 #include<list>
 #include<ctime>
 #include<fstream>
+#include<vector>
 
 using std::cin;
 using std::cout;
@@ -263,38 +264,50 @@ void save(const std::map<std::string, std::list<Crime>>& base, const std::string
 }
 std::map<std::string, std::list<Crime>> load(const std::string& filename)
 {
-	std::map<std::string, std::list<Crime>> base;
+	//std::map<std::string, std::list<Crime>> base;
+	std::vector<Crime> base;
 	std::ifstream fin(filename);
 	if (fin.is_open())
 	{
-		while (!fin.eof())
+		//while (!fin.eof())
+		//{
+		//	std::string licence_plate;
+		//	std::getline(fin, licence_plate, ':');
+		//	fin.ignore();   //:
+
+		//	std::string crimes;
+		//	std::getline(fin, crimes);
+		//	char* sz_buffer = new char[crimes.size() + 1] {};
+		//	strcpy(sz_buffer, crimes.c_str());
+		//	char delimiters[] = ",";
+		//	for (char* pch = strtok(sz_buffer, delimiters); pch; pch = strtok(NULL, delimiters))
+		//	{
+		//		//std::cout << pch << "\t";
+		//		//std::string s_crime = pch;
+		//		//std::stringstream ss_crime(pch, std::ios_base::in | std::ios_base::out);
+		//		std::stringstream ss_crime(crimes);
+		//		Crime crime(0, "place", "00:00 01.01.2000");
+		//		ss_crime >> crime;
+		//		/*int crime = atoi(pch);
+		//		while (*pch == ' ')pch++;*/
+		//		//base[licence_plate].push_back(Crime(crime, pch + 1));
+		//		base[licence_plate].push_back(crime);
+		//	}
+		//	cout << endl;
+		//	/*std::string licence_plate;
+		//	std::getline(fin, licence_plate, ':');
+		//	fin.ignore();
+		//	Crime crime(0, "place", "time");
+		//	fin >> crime;
+		//	base[licence_plate].push_back(crime);*/
+
+		//}
+		int id;
+		std::string place;
+		tm time;
+		while (fin >> id >> place)
 		{
-			std::string licence_plate;
-			std::getline(fin, licence_plate, ':');
-			fin.ignore();   //:
-
-			std::string crimes;
-			std::getline(fin, crimes);
-			char* sz_buffer = new char[crimes.size() + 1] {};
-			strcpy(sz_buffer, crimes.c_str());
-			char delimiters[] = ",";
-			for (char* pch = strtok(sz_buffer, delimiters); pch; pch = strtok(NULL, delimiters))
-			{
-				//std::cout << pch << "\t";
-				//std::string s_crime = pch;
-				std::stringstream ss_crime(pch, std::ios_base::in | std::ios_base::out);
-				Crime crime(0, "place", "00:00 01.01.2000");
-				ss_crime >> crime;
-				base[licence_plate].push_back(crime);
-			}
-			cout << endl;
-			/*std::string licence_plate;
-			std::getline(fin, licence_plate, ':');
-			fin.ignore();
-			Crime crime(0, "place", "time");
-			fin >> crime;
-			base[licence_plate].push_back(crime);*/
-
+			base.push_back(Crime{id, place });
 		}
 		fin.close();
 	}
@@ -302,7 +315,7 @@ std::map<std::string, std::list<Crime>> load(const std::string& filename)
 	{
 		std::cerr << "Error: file not found" << endl;
 	}
-	return base;
+	//return base;
 }
 //void load(const std::map<std::string, std::list<Crime>>& base, const std::string& filename)
 //{
