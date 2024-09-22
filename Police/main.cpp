@@ -2,13 +2,14 @@
 #pragma warning (disable: 4326)
 #include<Windows.h>
 #include<iostream>
+#include<fstream>
 #include<string>
 #include<sstream>
 #include<conio.h>
 #include<map>
 #include<list>
 #include<ctime>
-#include<fstream>
+
 
 using std::cin;
 using std::cout;
@@ -18,9 +19,9 @@ using std::endl;
 #define tab "\t"
 #define delimiter "\n--------------------------------------\n"
 
-#define Enter  13
-#define Escape  27
-#define UP_ARROW  72
+#define Enter       13
+#define Escape      27
+#define UP_ARROW    72
 #define DOWN_ARROW  80
 
 
@@ -83,6 +84,10 @@ public:
 	{
 		return VIOLATIONS.at(id);
 	}
+	const std::string& get_place()const
+	{
+		return place;
+	}
 	const std::string get_time()const
 	{
 		/*std::string result = asctime(&time);
@@ -98,15 +103,11 @@ public:
 		tm copy = time;
 		return mktime(&copy);
 	}
-
 	/*void set_license_plate(const std::string& license_plate)
 	{
 		this->license_plate = license_plate;
 	}*/
-	const std::string& get_place()const
-	{
-		return place;
-	}
+	
 	void set_violation_id(int id)
 	{
 		this->id = id;
@@ -147,10 +148,10 @@ public:
 	}
 
 	// Constructors:
-	explicit Crime(/*const std::string& license_plate*/ int violation_id = 0,
-		const std::string& place = "Place", const std::string& time = "00:00 01.01.2000") // без explicit выдает ошибку
+	explicit Crime(int violation_id = 0,
+		const std::string& place = "Place", 
+		const std::string& time = "00:00 01.01.2000") // без explicit выдает ошибку
 	{
-		//set_license_plate(license_plate);
 		this->time = {};  //tm()
 		this->set_violation_id(violation_id);
 		this->set_place(place);
@@ -192,11 +193,11 @@ std::istream& operator>>(std::istream& is, Crime& obj)
 	return is;
 }
 
+int menu();
 void print(const std::map<std::string, std::list<Crime>>& base);
 void save(const std::map<std::string, std::list<Crime>>& base, const std::string& filename);
 std::map<std::string, std::list<Crime>> load (const std::string& filename);
 
-int menu();
 //void Save(const std::map<std::string,std::list<Crime>> base, const std::string filename)
 //{
 //	std::ofstream fout(filename);
@@ -260,7 +261,6 @@ void main()
     std::map<std::string, std::list<Crime>> base = load("base.txt");
 	do
 	{
-
 		switch (menu())
 		{
 		case 0: return;
@@ -312,12 +312,13 @@ int menu()
 void print(const std::map<std::string, std::list<Crime>>& base)
 {
 	cout << delimiter << endl;
-	for (std::map<std::string, std::list<Crime>>::const_iterator map_it = base.begin(); map_it != base.end(); ++map_it)
+	for (std::map<std::string, std::list<Crime>>::const_iterator map_it = base.begin(); 
+		map_it != base.end(); ++map_it)
 	{
 		cout << map_it->first << ":\n";
 		for (std::list<Crime>::const_iterator it = map_it->second.begin(); it != map_it->second.end(); ++it)
 		{
-			cout << *it << endl;
+			cout << "\t" << * it << endl;
 		}
 		cout << delimiter << endl;
 	}
@@ -327,13 +328,13 @@ void print(const std::map<std::string, std::list<Crime>>& base)
 void save(const std::map<std::string, std::list<Crime>>& base, const std::string& filename)
 {
 	std::ofstream fout(filename);
-	for (std::map<std::string, std::list<Crime>>::const_iterator map_it = base.begin(); map_it != base.end(); ++map_it)
+	for (std::map<std::string, std::list<Crime>>::const_iterator map_it = base.begin(); 
+		map_it != base.end(); ++map_it)
 	{
 		fout << map_it->first << ":\t";
 		for (std::list<Crime>::const_iterator it = map_it->second.begin(); it != map_it->second.end(); ++it)
 		{
-			 
-			fout << *it << ", ";
+			fout << *it << ",";
 		}
 		//fout.seekp(-1, std::ios::cur); //Метод seekp(offset, direction) задает позицию курсора записи (р - pur)
 		// -1 смещение на один символ обратно, std::ios::cur - показывает что смещение производится от текущей позиции курсора
@@ -363,7 +364,7 @@ std::map<std::string, std::list<Crime>> load(const std::string& filename)
 			char* sz_buffer = new char[crimes.size() + 1]{};
 			strcpy(sz_buffer, crimes.c_str());
 			char delimiters[] = ",";
-			Crime crime; // (0, "place", "00:00 01.01.2000");
+			Crime crime;// (0, "place", "00:00 01.01.2000");
 			for (char* pch = strtok(sz_buffer, delimiters); pch; pch = strtok(NULL, delimiters))
 			{
 				std::cout << pch << "\t";
