@@ -105,7 +105,7 @@ public:
 		time = *localtime(&timestamp);
 	}
 	PoliceDatabase() {}
-	PoliceDatabase(double offenses_id,const std::string& place, const std::string& time)
+	explicit PoliceDatabase(double offenses_id = 0, const std::string& place = "Place", const std::string& time = "00:00 01.01.2000")
 	{
 		this->time = {};  //tm()
 		this->set_offenses_id(offenses_id);
@@ -159,6 +159,7 @@ std::istream& operator>>(std::istream& is, PoliceDatabase& obj)
 	std::string place;
 	is >> id >> timestamp;
 	std::getline(is, place, ',');
+	is.ignore();
 	obj.set_offenses_id(id);
 	obj.set_timestamp(timestamp);
 	obj.set_place(place);
@@ -167,7 +168,7 @@ std::istream& operator>>(std::istream& is, PoliceDatabase& obj)
 
 void print(std::map<std::string, std::list<PoliceDatabase>>& base);
 void save(const std::map<std::string, std::list<PoliceDatabase>>& base, const std::string& filename);
-//std::map<std::string, std::list<PoliceDatabase>> load(const std::string& filename);
+std::map<std::string, std::list<PoliceDatabase>> load(const std::string& filename);
 
 void main()
 {
@@ -198,7 +199,7 @@ void main()
 	do
 	{
 		cin >> i;
-		PoliceDatabase car;
+		//PoliceDatabase car;
 
 		switch (i)
 		{
@@ -222,7 +223,7 @@ void main()
 
 		case 4:
 			cout << "Добавить правонарушителя\n" << endl;
-			car.add(base, "A348CB", (12.3, "ул. Носова", "12:10 13.08.2023"));
+			//car.add(base, "A348CB", (12.3, "ул. Носова", "12:10 13.08.2023"));
 			print(base);
 			break;
 
@@ -235,7 +236,7 @@ void main()
 
 		case 6:
 			cout << "Загрузить базу из файла\n" << endl;
-			std::map<std::string, std::list<PoliceDatabase>> base;
+			/*std::map<std::string, std::list<PoliceDatabase>> base;
 			std::ifstream fin("Police database.txt");
 			if (fin.is_open())
 			{
@@ -251,7 +252,8 @@ void main()
 			else
 			{
 				std::cerr << "Error: file not found" << endl;
-			}
+			}*/
+			load("Police database.txt");
 			cout << "Файл загружен" << endl;
 			break;
 
@@ -261,6 +263,7 @@ void main()
 
 void print(std::map<std::string, std::list<PoliceDatabase>>& base)
 {
+	cout << delimiter << endl;
 	for (std::map<std::string, std::list<PoliceDatabase>>::const_iterator map_it = base.begin(); map_it != base.end(); ++map_it)
 	{
 		cout << map_it->first << ":\n";
@@ -268,7 +271,7 @@ void print(std::map<std::string, std::list<PoliceDatabase>>& base)
 		{
 			cout << *it << endl;
 		}
-		cout << endl;
+		cout << delimiter << endl;
 	}
 }
 void save(const std::map<std::string, std::list<PoliceDatabase>>& base, const std::string& filename)
@@ -282,59 +285,63 @@ void save(const std::map<std::string, std::list<PoliceDatabase>>& base, const st
 
 			fout << *it << ", ";
 		}
-		fout.seekp(-1, std::ios::cur); //Метод seekp(offset, direction) задает позицию курсора записи (р - pur)
+		//fout.seekp(-1, std::ios::cur); //Метод seekp(offset, direction) задает позицию курсора записи (р - pur)
 		// -1 смещение на один символ обратно, std::ios::cur - показывает что смещение производится от текущей позиции курсора
-		fout << ";\n";
+		//fout << ";\n";
+		fout << endl;
 	}
 	fout.close();
 	std::string command = "notepad " + filename;
 	system(command.c_str());
 }
-//std::map<std::string, std::list<PoliceDatabase>> load(const std::string& filename)
-//{
-//	std::map<std::string, std::list<PoliceDatabase>> base;
-//	std::ifstream fin(filename);
-//	if (fin.is_open())
-//	{
-//		//while (!fin.eof())
-//		//{
-//		//	std::string licence_plate;
-//		//	std::getline(fin, licence_plate, ':');
-//		//	fin.ignore();
-//		//	std::string database;
-//		//	std::getline(fin, database);
-//		//	char* sz_buffer = new char[database.size() + 1] {};
-//		//	strcpy(sz_buffer, database.c_str());
-//		//	char delimiters[] = ",";
-//		//	for (char* pch = strtok(sz_buffer, delimiters); pch; pch = strtok(NULL, delimiters))
-//		//	{
-//		//		//std::cout << pch << "\t";
-//		//		//std::string s_crime = pch;
-//		//		std::stringstream ss_database(pch, std::ios_base::in | std::ios_base::out);
-//		//		PoliceDatabase database(0, "place", "00:00 01.01.2000");
-//		//		//ss_crime >> database;
-//		//		base[licence_plate].push_back(database);
-//		//	}
-//		//	cout << endl;
-//		//	/*std::string licence_plate;
-//		//	std::getline(fin, licence_plate, ':');
-//		//	fin.ignore();
-//		//	Crime crime(0, "place", "time");
-//		//	fin >> crime;
-//		//	base[licence_plate].push_back(crime);*/
-//		//}
-//		while (!fin.eof())
-//		{
-//			const int SIZE = 102400;
-//			char buffer[SIZE]{};
-//			fin.getline(buffer, SIZE);
-//			cout << buffer << endl;
-//		}
-//		fin.close();
-//	}
-//	else
-//	{
-//		std::cerr << "Error: file not found" << endl;
-//	}
-//	//return base;
-//}
+std::map<std::string, std::list<PoliceDatabase>> load(const std::string& filename)
+{
+	std::map<std::string, std::list<PoliceDatabase>> base;
+	std::ifstream fin(filename);
+	if (fin.is_open())
+	{
+		while (!fin.eof())
+		{
+			std::string licence_plate;
+			std::getline(fin, licence_plate, ':');
+			licence_plate.erase(0, licence_plate.find_first_not_of('\n'));
+			fin.ignore();
+
+			std::string databases;
+			std::getline(fin, databases);
+			char* sz_buffer = new char[databases.size() + 1] {};
+			strcpy(sz_buffer, databases.c_str());
+			char delimiters[] = ",";
+			PoliceDatabase database(0, "place", "00:00 01.01.2000");
+			for (char* pch = strtok(sz_buffer, delimiters); pch; pch = strtok(NULL, delimiters))
+			{
+				std::cout << pch << "\t";
+				//std::string s_crime = pch;
+				std::stringstream ss_database(pch, std::ios_base::in | std::ios_base::out);
+				ss_database >> database;
+				base[licence_plate].push_back(database);
+			}
+			cout << endl;
+			delete[] sz_buffer;
+			/*std::string licence_plate;
+			std::getline(fin, licence_plate, ':');
+			fin.ignore();
+			Crime crime(0, "place", "time");
+			fin >> crime;
+			base[licence_plate].push_back(crime);*/
+		}
+		/*while (!fin.eof())
+		{
+			const int SIZE = 102400;
+			char buffer[SIZE]{};
+			fin.getline(buffer, SIZE);
+			cout << buffer << endl;
+		}*/
+		fin.close();
+	}
+	else
+	{
+		std::cerr << "Error: file not found" << endl;
+	}
+	return base;
+}
