@@ -196,6 +196,8 @@ std::istream& operator>>(std::istream& is, Crime& obj)
 int menu();
 void print(const std::map<std::string, std::list<Crime>>& base);
 void save(const std::map<std::string, std::list<Crime>>& base, const std::string& filename);
+void add(std::map<std::string, std::list<Crime>>& base);
+void search_number(const std::map<std::string, std::list<Crime>>& base);
 std::map<std::string, std::list<Crime>> load (const std::string& filename);
 
 //void Save(const std::map<std::string,std::list<Crime>> base, const std::string filename)
@@ -258,7 +260,7 @@ void main()
 	print(base);
 #endif // LOAD_CHECK
 	
-    std::map<std::string, std::list<Crime>> base = load("base.txt");
+	std::map<std::string, std::list<Crime>> base = load("base.txt");
 	do
 	{
 		switch (menu())
@@ -267,8 +269,8 @@ void main()
 		case 1: base = load("base.txt"); break;
 		case 2: save(base, "base.txt"); break;
 		case 3: print(base); break;
-		case 4: cout << "Скоро будет" << endl; break;
-		case 5: cout << "Скоро будет" << endl; break;
+		case 4: search_number(base); break;
+		case 5: add(base); break;
 		}
 	} while (true);
 	
@@ -399,6 +401,55 @@ std::map<std::string, std::list<Crime>> load(const std::string& filename)
 		std::cerr << "Error: file not found" << endl;
 	}
 	return base;
+}
+void add(std::map<std::string, std::list<Crime>>& base)
+{
+	std::string place;
+	std::string number_car;
+	std::string time;
+	int violation_id;
+	//Crime crime(0, "place", "00:00 01.01.2000");
+		
+	cout << "Введите номер автомобиля: ";
+	cin >> number_car;
+	cout << "Введите номер правонарушения: ";
+	cin >> violation_id;
+	cout << "Укажите место правонарушения: ";
+	getline(cin, place);
+	cout << "Укажите время и дату правонарушения: ";
+	getline(cin, time);
+
+	/*std::map<std::string, std::list<Crime>>::iterator map_it = base.find(number_car);
+
+	if (map_it != base.end())
+	{
+		map_it->second.push_back(crime);
+	}
+	else
+	{
+		base.insert(map_it, std::pair<std::string, std::list<Crime>>(number_car, place, time));
+	}*/
+	base[number_car].push_back(Crime(violation_id, place, number_car));
+}
+void search_number(const std::map<std::string, std::list<Crime>>& base)
+{
+	std::string number_car;
+
+	cout << "Введите номер автомобиля: ";
+	cin >> number_car;
+
+	std::map<std::string, std::list<Crime>>::const_iterator map_it = base.find(number_car);
+	if (map_it != base.end())
+	{
+		for (std::list<Crime>::const_iterator i = map_it->second.begin(); i != map_it->second.end(); ++i)
+		{
+			cout << *i << endl;
+		}
+	}
+	else
+	{
+		cout << "Данный номер отсутствует в базе правонарушителей!" << endl;
+	}
 }
 //void load(const std::map<std::string, std::list<Crime>>& base, const std::string& filename)
 //{
