@@ -194,6 +194,7 @@ std::istream& operator>>(std::istream& is, Crime& obj)
 }
 
 int menu();
+int menu(const std::map<int, std::string>& base_offenses);
 void print(const std::map<std::string, std::list<Crime>>& base);
 void save(const std::map<std::string, std::list<Crime>>& base, const std::string& filename);
 void add(std::map<std::string, std::list<Crime>>& base);
@@ -260,7 +261,7 @@ void main()
 	print(base);
 #endif // LOAD_CHECK
 	
-	std::map<std::string, std::list<Crime>> base = load("base.txt");
+	std::map<std::string, std::list<Crime>> base; //= load("base.txt");
 	do
 	{
 		switch (menu())
@@ -310,7 +311,41 @@ int menu()
 	
 	return 0;
 }
+int menu(const std::map<int, std::string>& base_offenses)
+{
+	int selected_item = 1;
+	char key;
+	do
+	{
+		system("CLS");
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		for (int i = 1; i <= MENU_ITEMS.size(); i++)
+		{
+			cout << (i == selected_item ? "[" : " ");
+			cout << i << ". ";
+			cout.width(32);
+			cout << std::left;
+			if (i == selected_item)SetConsoleTextAttribute(hConsole, 0x70);
+			cout << MENU_ITEMS.at(i);
+			SetConsoleTextAttribute(hConsole, 0x07);
+			cout << (i == selected_item ? "  ]" : " ");
+			cout << endl;
+		}
+		key = _getch();
+		//cout << (int)key << endl;
+		switch (key)
+		{
+		case UP_ARROW: selected_item--; break;
+		case DOWN_ARROW: selected_item++; break;
+		case Enter: return selected_item;
+		case Escape: return 0;
+		}
+		if (selected_item == MENU_ITEMS.size() + 1)selected_item = 1;
+		if (selected_item == 0)selected_item = MENU_ITEMS.size();
+	} while (key != Escape);
 
+	return 0;
+}
 void print(const std::map<std::string, std::list<Crime>>& base)
 {
 	cout << delimiter << endl;
@@ -412,8 +447,14 @@ void add(std::map<std::string, std::list<Crime>>& base)
 		
 	cout << "Введите номер автомобиля: ";
 	cin >> number_car;
-	cout << "Введите номер правонарушения: ";
-	cin >> violation_id;
+	/*cout << "Введите номер правонарушения: ";
+	cin >> violation_id;*/
+	cout << "Выберите номер правонарушения:" << endl;
+	for (const std::pair<int, std::string>& it:VIOLATIONS)
+	{
+		cout << it.first << " " << it.second << endl;
+	}
+	violation_id = menu(VIOLATIONS);
 	cout << "Укажите место правонарушения: ";
 	getline(cin, place);
 	cout << "Укажите время и дату правонарушения: ";
